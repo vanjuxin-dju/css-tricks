@@ -1,0 +1,51 @@
+.carousel-1 {
+    width: 300px;
+    height: 220px;
+    overflow: hidden;
+    display: grid;
+
+    & > img {
+        z-index: 2;
+        grid-area: 1 / 1;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: slide 8s infinite,
+                z-order 8s infinite steps(1);
+
+        &:last-child {
+            animation-name: slide, z-order-last;
+        }
+
+        &:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        &:nth-child(2) {
+            animation-delay: 4s;
+        }
+
+        &:nth-child(1) {
+            animation-delay: 6s;
+        }
+    }
+}
+
+@keyframes slide {
+    0%     { transform: translateX(0%); }
+    16.67% { transform: translateX(110%); }
+    33.34% { transform: translateX(0%); }
+    100%   { transform: translateX(0%); } 
+}
+
+@keyframes z-order {
+    16.67%,
+    33.33% { z-index: 1; }
+    66.33% { z-index: 2; }
+}
+
+@keyframes z-order-last {
+    16.67%,
+    33.33% { z-index: 1; }
+    85.33% { z-index: 2; }
+}
