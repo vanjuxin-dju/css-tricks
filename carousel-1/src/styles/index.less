@@ -1,5 +1,10 @@
+@imageWidth: 300px;
+@countOfImages : 6;
+
+@timeForEachImage: 2s;
+
 .carousel-1 {
-    width: 300px;
+    width: @imageWidth;
     height: 220px;
     overflow: hidden;
     display: grid;
@@ -10,24 +15,22 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        animation: slide 8s infinite,
-                z-order 8s infinite steps(1);
+        animation: slide calc(@countOfImages * @timeForEachImage) infinite,
+                z-order calc(@countOfImages * @timeForEachImage) infinite steps(1);
 
         &:last-child {
             animation-name: slide, z-order-last;
         }
 
-        &:nth-child(3) {
-            animation-delay: 2s;
+        .loop (@index) when (@index > 0) {
+            @delayMultiplicator : (@countOfImages - @index);
+            &:nth-child(@{index}) {
+                animation-delay: (@delayMultiplicator * @timeForEachImage);
+            }
+            .loop((@index - 1));
         }
 
-        &:nth-child(2) {
-            animation-delay: 4s;
-        }
-
-        &:nth-child(1) {
-            animation-delay: 6s;
-        }
+        .loop((@countOfImages - 1));
     }
 }
 
@@ -47,5 +50,5 @@
 @keyframes z-order-last {
     16.67%,
     33.33% { z-index: 1; }
-    85.33% { z-index: 2; }
+    95.33% { z-index: 2; }
 }
