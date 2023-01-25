@@ -1,0 +1,42 @@
+@imageWidth: 300px;
+@countOfImages : 4;
+
+@timeForEachImage: 3s;
+
+@slideStep : (100% / @countOfImages);
+@animationStep : (@slideStep / 5);
+@startingPoint: @slideStep - @animationStep;
+
+.carousel-2 {
+    width: @imageWidth;
+    height: 220px;
+    overflow: hidden;
+    
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+
+    & > img {
+        position: relative;
+        animation: slide calc(@countOfImages * @timeForEachImage) infinite;
+    }
+}
+
+.loop (@index) when (@index < @countOfImages) {
+    @keyframeSel: @index * @slideStep;
+    @keyframeHold : (@index + 1) * @slideStep - @animationStep;
+
+    @{keyframeHold} {
+        left: (-@imageWidth * @index)
+    }
+
+    @{keyframeSel}{
+        left: (-@imageWidth * @index);
+    }
+    .loop((@index + 1));
+}
+
+@keyframes slide {
+    0%, 100% { left: 0; }
+    .loop(0);
+}
